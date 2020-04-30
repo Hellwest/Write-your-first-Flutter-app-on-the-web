@@ -8,8 +8,16 @@ class LoginApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         '/': (context) => LoginScreen(),
+        '/welcome': (context) => WelcomeScreen(),
       },
     );
+  }
+}
+
+class WelcomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: Text("Welcome!", style: Theme.of(context).textTheme.display3),),);
   }
 }
 
@@ -41,6 +49,10 @@ class _LoginFormState extends State<LoginForm> {
   final _usernameTextController = TextEditingController();
 
   double _formProgress = 0;
+
+  void _showWelcomeScreen() {
+    Navigator.of(context).pushNamed('/welcome');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +89,7 @@ class _LoginFormState extends State<LoginForm> {
           FlatButton(
             color: Colors.blue,
             textColor: Colors.white,
-            onPressed: null,
+            onPressed: _showWelcomeScreen,
             child: Text('Sign up'),
           ),
         ],
