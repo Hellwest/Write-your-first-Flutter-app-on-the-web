@@ -67,7 +67,7 @@ class _LoginFormState extends State<LoginForm> {
     });
   }
 
-  _validator(String value) {
+  String _validator(String value) {
     if (value.isEmpty) {
       return 'Required field. Enter some text NOW!';
     }
