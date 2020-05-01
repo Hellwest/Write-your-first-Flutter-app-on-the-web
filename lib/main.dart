@@ -75,6 +75,10 @@ class _LoginFormState extends State<LoginForm> {
     return null;
   }
 
+  void _showWelcomeScreen() {
+    Navigator.of(context).pushNamed('/welcome');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -120,7 +124,7 @@ class _LoginFormState extends State<LoginForm> {
                 return null;
               }
 
-              Navigator.of(context).pushNamed('/welcome');
+              _showWelcomeScreen();
             },
             child: Text('Sign up'),
           ),
