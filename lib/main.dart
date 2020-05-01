@@ -44,15 +44,13 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  final _formKey = GlobalKey<FormState>();
+  
   final _firstNameTextController = TextEditingController();
   final _lastNameTextController = TextEditingController();
   final _usernameTextController = TextEditingController();
 
   double _formProgress = 0;
-
-  void _showWelcomeScreen() {
-    Navigator.of(context).pushNamed('/welcome');
-  }
 
   void _updateFormProgress() {
     var progress = 0.0;
@@ -69,9 +67,18 @@ class _LoginFormState extends State<LoginForm> {
     });
   }
 
+  _validator(String value) {
+    if (value.isEmpty) {
+      return 'Required field. Enter some text NOW!';
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       onChanged: () => _updateFormProgress(),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -84,6 +91,7 @@ class _LoginFormState extends State<LoginForm> {
           Padding(
             padding: EdgeInsets.all(8.0),
             child: TextFormField(
+              validator: (value) => _validator(value),
               controller: _firstNameTextController,
               decoration: InputDecoration(hintText: 'First name'),
             ),
@@ -91,6 +99,7 @@ class _LoginFormState extends State<LoginForm> {
           Padding(
             padding: EdgeInsets.all(8.0),
             child: TextFormField(
+              validator: (value) => _validator(value),
               controller: _lastNameTextController,
               decoration: InputDecoration(hintText: 'Last name'),
             ),
@@ -98,6 +107,7 @@ class _LoginFormState extends State<LoginForm> {
           Padding(
             padding: EdgeInsets.all(8.0),
             child: TextFormField(
+              validator: (value) => _validator(value),
               controller: _usernameTextController,
               decoration: InputDecoration(hintText: 'Username'),
             ),
@@ -105,7 +115,13 @@ class _LoginFormState extends State<LoginForm> {
           FlatButton(
             color: Colors.blue,
             textColor: Colors.white,
-            onPressed: _formProgress == 1 ? _showWelcomeScreen : null,
+            onPressed: () {
+              if (!_formKey.currentState.validate()) {
+                return null;
+              }
+
+              Navigator.of(context).pushNamed('/welcome');
+            },
             child: Text('Sign up'),
           ),
         ],
